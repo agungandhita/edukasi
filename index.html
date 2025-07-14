@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edukasi Bahaya Remaja: Judol, NAPZA, & Perundungan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: Aplikasi ini menggunakan struktur navigasi berbasis tab untuk tiga topik utama (Judi Online, NAPZA, Perundungan). Pendekatan ini dipilih untuk memecah konten yang padat menjadi bagian-bagian yang mudah dikelola, mencegah pengguna (siswa SMP) merasa kewalahan. Setiap tab menampilkan kontennya sendiri, terdiri dari pengantar, kartu interaktif untuk 'Bahaya', visualisasi data kualitatif menggunakan bagan batang horizontal untuk menekankan tingkat keseriusan, dan daftar tindakan yang jelas. Alur ini memandu pengguna dari pemahaman masalah, melihat dampaknya secara visual, hingga mengetahui solusinya, menciptakan pengalaman belajar yang terstruktur dan menarik. -->
+    <!-- Visualization & Content Choices: Info Laporan -> Tujuan -> Metode Viz/Presentasi -> Interaksi -> Justifikasi -> Library/Metode. 1. Bahaya Setiap Topik -> Menginformasikan & Menekankan Risiko -> Kartu Interaktif + Bagan Batang Horizontal -> Klik untuk detail, bagan untuk perbandingan visual -> Kartu memecah teks, bagan memberikan dampak visual pada data kualitatif -> HTML/CSS/JS + Chart.js. 2. Bentuk Perundungan -> Mengklasifikasikan Jenis -> Grid Kartu Statis dengan Ikon -> Tampilan Statis -> Pengorganisasian visual yang jelas untuk berbagai bentuk -> HTML/CSS/Tailwind. 3. Tindakan yang Harus Dilakukan -> Memberikan Panduan -> Daftar Aksi yang Jelas dengan Ikon -> Tampilan Statis -> Memberikan instruksi yang mudah diikuti dan diingat -> HTML/CSS/Tailwind. Pilihan ini menghindari dinding teks dan menggunakan interaksi serta visualisasi untuk meningkatkan keterlibatan dan pemahaman. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .nav-button { transition: all 0.3s ease; }
+        .nav-button.active { background-color: #0891b2; color: white; }
+        .nav-button:not(.active) { background-color: #f0f9ff; color: #0891b2; }
+        .content-card { transition: all 0.3s ease; border-left-width: 4px; }
+        .content-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-cyan-700">Pentingnya Menjaga Diri di Era Digital</h1>
+            <p class="mt-2 text-slate-600 max-w-3xl mx-auto">Materi untuk siswa agar waspada terhadap bahaya Judi Online, NAPZA, dan Perundungan.</p>
+        </header>
+
+        <nav id="navigation" class="flex justify-center items-center gap-2 md:gap-4 mb-8 p-2 bg-white rounded-xl shadow-sm">
+            <button data-target="judi" class="nav-button flex-1 md:flex-initial text-sm md:text-base font-semibold py-3 px-6 rounded-lg">🎲 Judi Online</button>
+            <button data-target="napza" class="nav-button flex-1 md:flex-initial text-sm md:text-base font-semibold py-3 px-6 rounded-lg">💊 NAPZA</button>
+            <button data-target="perundungan" class="nav-button flex-1 md:flex-initial text-sm md:text-base font-semibold py-3 px-6 rounded-lg">🗣️ Perundungan</button>
+        </nav>
+
+        <main id="content-area">
+            <!-- Content sections will be dynamically injected here -->
+        </main>
+
+    </div>
+
+    <script>
+        const appData = {
+            judi: {
+                title: "Bahaya Judi Online (Judol)",
+                intro: "Judi online adalah segala bentuk taruhan menggunakan uang asli yang dilakukan melalui internet. Meskipun terlihat seperti permainan biasa, dampaknya sangat merusak dan dapat menjebak siapa saja, terutama remaja, dalam lingkaran setan yang sulit dihentikan.",
+                dangers: [
+                    { title: "Kecanduan", detail: "Sangat adiktif, membuat sulit berhenti bahkan saat terus kalah. Ini seperti jebakan yang menguras pikiran dan waktu.", icon: "🔗" },
+                    { title: "Kerugian Finansial", detail: "Bisa menghabiskan seluruh tabungan, bahkan memicu tindakan nekat seperti meminjam atau mencuri uang.", icon: "💸" },
+                    { title: "Masalah Hukum", detail: "Merupakan kegiatan ilegal di Indonesia. Jika tertangkap, bisa berurusan dengan polisi dan menghadapi hukuman berat.", icon: "⚖️" },
+                    { title: "Gangguan Mental", detail: "Menyebabkan stres berat, depresi, dan kecemasan akibat tekanan finansial dan rasa bersalah yang terus-menerus.", icon: "🧠" },
+                    { title: "Merusak Hubungan", detail: "Memicu kebohongan dan perilaku sembunyi-sembunyi yang merusak kepercayaan keluarga dan teman.", icon: "💔" },
+                    { title: "Prestasi Menurun", detail: "Fokus pada judi membuat pelajaran di sekolah terbengkalai, menyebabkan prestasi akademik menurun drastis.", icon: "📉" }
+                ],
+                chart: {
+                    title: "Visualisasi Tingkat Bahaya Judol",
+                    labels: ["Kecanduan", "Kerugian Finansial", "Masalah Hukum", "Gangguan Mental", "Merusak Hubungan", "Prestasi Menurun"],
+                    values: [95, 90, 80, 88, 85, 75]
+                },
+                actions: {
+                    title: "Apa yang Harus Dilakukan?",
+                    items: [
+                        { title: "Hindari Sepenuhnya", detail: "Jangan pernah mencoba, bahkan untuk taruhan terkecil sekalipun. Pencegahan adalah kunci utama.", icon: "🚫" },
+                        { title: "Fokus pada Hal Positif", detail: "Salurkan waktu dan energi untuk hobi, belajar, olahraga, atau kegiatan lain yang membangun dan bermanfaat.", icon: "🎯" },
+                        { title: "Berani Melapor", detail: "Jika tahu ada teman yang terlibat atau menemukan situs judi, ajak bicara dan laporkan ke pihak yang berwenang.", icon: "📢" }
+                    ]
+                }
+            },
+            napza: {
+                title: "Bahaya NAPZA",
+                intro: "NAPZA (Narkotika, Psikotropika, dan Zat Adiktif lainnya) adalah zat berbahaya yang mengubah cara kerja pikiran, perasaan, dan perilaku. Penggunaannya, bahkan sekali coba, dapat menyebabkan kecanduan parah dan merusak seluruh aspek kehidupan.",
+                dangers: [
+                    { title: "Kesehatan Fisik Hancur", detail: "Merusak organ vital seperti otak, jantung, paru-paru, dan hati, yang dapat menyebabkan penyakit kronis dan kematian dini.", icon: "🏥" },
+                    { title: "Kecanduan Parah", detail: "Menyebabkan ketergantungan fisik dan psikologis yang sangat kuat, membuat tubuh dan pikiran terus-menerus 'meminta' zat tersebut.", icon: "⛓️" },
+                    { title: "Masalah Hukum Berat", detail: "Menggunakan, memiliki, atau mengedarkan NAPZA adalah kejahatan serius dengan ancaman hukuman penjara yang sangat panjang.", icon: "⚖️" },
+                    { title: "Gangguan Mental Akut", detail: "Memicu atau memperburuk depresi, paranoia, halusinasi, dan kondisi psikotik lainnya.", icon: "🤯" },
+                    { title: "Masa Depan Hancur", detail: "Menghilangkan motivasi belajar, menyebabkan putus sekolah, dan menghancurkan peluang untuk memiliki karier dan kehidupan yang baik.", icon: "💥" },
+                    { title: "Dampak Sosial Negatif", detail: "Menjauhkan diri dari teman dan keluarga, serta berpotensi terlibat dalam tindak kriminal untuk membiayai kecanduan.", icon: "👥" }
+                ],
+                chart: {
+                    title: "Visualisasi Tingkat Bahaya NAPZA",
+                    labels: ["Kesehatan Hancur", "Kecanduan Parah", "Masalah Hukum", "Gangguan Mental", "Masa Depan Hancur", "Dampak Sosial"],
+                    values: [100, 98, 95, 92, 96, 90]
+                },
+                actions: {
+                    title: "Bagaimana Menghindari NAPZA?",
+                    items: [
+                        { title: "Katakan TIDAK dengan Tegas", detail: "Beranilah menolak setiap ajakan untuk mencoba NAPZA. Kamu berhak melindungi masa depanmu.", icon: "🗣️" },
+                        { title: "Pilih Lingkungan Positif", detail: "Bertemanlah dengan orang-orang yang memberikan pengaruh baik dan mendukung kegiatan positif.", icon: "🤝" },
+                        { title: "Pahami Bahayanya", detail: "Cari informasi yang benar tentang dampak buruk NAPZA agar tidak mudah terbujuk rayu.", icon: "📚" },
+                        { title: "Jangan Takut Melapor", detail: "Jika mengetahui adanya penyalahgunaan NAPZA, segera laporkan kepada guru, orang tua, atau pihak berwajib.", icon: "🛡️" }
+                    ]
+                }
+            },
+            perundungan: {
+                title: "Perundungan (Bullying) & Cyberbullying",
+                intro: "Perundungan adalah tindakan agresif yang disengaja dan berulang untuk menyakiti orang lain, baik secara fisik maupun mental. Ketika dilakukan di dunia maya, ini disebut cyberbullying. Keduanya sama-sama merusak dan tidak dapat dibenarkan.",
+                dangers: [
+                    { title: "Dampak pada Korban", detail: "Menyebabkan ketakutan, kecemasan, depresi, hilangnya kepercayaan diri, prestasi menurun, hingga trauma jangka panjang.", icon: "😢" },
+                    { title: "Konsekuensi bagi Pelaku", detail: "Cenderung tumbuh menjadi pribadi agresif, sulit berempati, dan berisiko terlibat dalam perilaku kriminal di masa depan.", icon: "😠" },
+                    { title: "Efek pada Saksi", detail: "Saksi bisa merasa takut menjadi korban berikutnya, tidak nyaman, atau merasa bersalah karena tidak berani membantu.", icon: "👀" },
+                ],
+                subsections: [
+                    {
+                        title: "Bentuk-bentuk Perundungan",
+                        type: 'grid',
+                        items: [
+                            { title: "Fisik", detail: "Memukul, menendang, mendorong.", icon: "👊" },
+                            { title: "Verbal", detail: "Mengejek, menghina, mengancam.", icon: "💬" },
+                            { title: "Sosial", detail: "Mengucilkan, menyebar gosip.", icon: "🚶‍♂️" },
+                            { title: "Cyber", detail: "Menyebar fitnah, foto memalukan di medsos.", icon: "💻" }
+                        ]
+                    }
+                ],
+                chart: {
+                    title: "Visualisasi Dampak Perundungan",
+                    labels: ["Dampak pada Korban", "Konsekuensi bagi Pelaku", "Efek pada Saksi"],
+                    values: [100, 85, 70]
+                },
+                actions: {
+                    title: "Apa yang Harus Kamu Lakukan?",
+                    items: [
+                        { title: "Jika Kamu Korban: Bicara!", detail: "Jangan pendam sendirian. Ceritakan pada orang tua, guru, atau orang dewasa yang kamu percaya. Kamu tidak sendiri.", icon: "🗣️" },
+                        { title: "Jika Kamu Saksi: Laporkan!", detail: "Jangan diam saja. Melaporkan perundungan adalah tindakan berani yang bisa menyelamatkan temanmu. Jadilah pahlawan.", icon: "🦸" },
+                        { title: "Blokir & Simpan Bukti", detail: "Untuk cyberbullying, segera blokir pelaku dan simpan bukti (screenshot) untuk dilaporkan.", icon: "📸" },
+                        { title: "Sebarkan Kebaikan", detail: "Perlakukan semua orang dengan hormat. Satu tindakan baik dapat mengubah suasana menjadi lebih positif.", icon: "💖" }
+                    ]
+                }
+            }
+        };
+
+        const contentArea = document.getElementById('content-area');
+        const navigation = document.getElementById('navigation');
+        let currentChart = null;
+        let activeSection = 'judi';
+
+        function createCard(item) {
+            return `
+                <div class="content-card bg-white p-4 rounded-lg shadow-md border-l-cyan-500">
+                    <h4 class="font-bold text-lg text-cyan-800 flex items-center gap-3">
+                        <span class="text-2xl">${item.icon}</span>
+                        <span>${item.title}</span>
+                    </h4>
+                    <p class="text-slate-600 mt-2">${item.detail}</p>
+                </div>
+            `;
+        }
+
+        function createActionItem(item) {
+             return `
+                <div class="content-card bg-white p-4 rounded-lg shadow-md border-l-teal-500">
+                    <h4 class="font-bold text-lg text-teal-800 flex items-center gap-3">
+                        <span class="text-2xl">${item.icon}</span>
+                        <span>${item.title}</span>
+                    </h4>
+                    <p class="text-slate-600 mt-2">${item.detail}</p>
+                </div>
+            `;
+        }
+
+        function renderContent(sectionKey) {
+            const data = appData[sectionKey];
+            let dangersHtml = data.dangers.map(createCard).join('');
+            let actionsHtml = data.actions.items.map(createActionItem).join('');
+
+            let subsectionsHtml = '';
+            if (data.subsections) {
+                subsectionsHtml = data.subsections.map(sub => `
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold text-slate-700 mb-4 text-center">${sub.title}</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            ${sub.items.map(createCard).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            const contentHtml = `
+                <div id="${sectionKey}" class="bg-white p-6 rounded-2xl shadow-lg">
+                    <header class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-cyan-700">${data.title}</h2>
+                        <p class="mt-2 text-slate-600 max-w-2xl mx-auto">${data.intro}</p>
+                    </header>
+
+                    ${subsectionsHtml}
+                    
+                    <div class="mb-8">
+                        <h3 class="text-2xl font-bold text-slate-700 mb-4 text-center">${sectionKey === 'perundungan' ? 'Tingkat Dampak Perundungan' : 'Mengapa Ini Sangat Berbahaya?'}</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                           ${dangersHtml}
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-100 p-4 rounded-lg my-8">
+                         <h3 class="text-2xl font-bold text-slate-700 mb-4 text-center">${data.chart.title}</h3>
+                         <div class="chart-container">
+                            <canvas id="mainChart"></canvas>
+                         </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-700 mb-4 text-center">${data.actions.title}</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${actionsHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+            contentArea.innerHTML = contentHtml;
+            renderChart(data.chart);
+        }
+
+        function renderChart(chartData) {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            if (currentChart) {
+                currentChart.destroy();
+            }
+            currentChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels,
+                    datasets: [{
+                        label: 'Tingkat Bahaya/Dampak',
+                        data: chartData.values,
+                        backgroundColor: 'rgba(8, 145, 178, 0.6)',
+                        borderColor: 'rgba(8, 145, 178, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#0e7490',
+                            titleFont: { size: 14, weight: 'bold' },
+                            bodyFont: { size: 12 },
+                            padding: 10,
+                            cornerRadius: 4
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                        },
+                        y: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function switchTab(target) {
+            activeSection = target;
+            updateNavButtons();
+            renderContent(target);
+        }
+        
+        function updateNavButtons() {
+            const buttons = navigation.querySelectorAll('button');
+            buttons.forEach(button => {
+                if (button.dataset.target === activeSection) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        navigation.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                const targetSection = e.target.dataset.target;
+                if (targetSection) {
+                    switchTab(targetSection);
+                }
+            }
+        });
+
+        window.addEventListener('load', () => {
+            switchTab(activeSection);
+        });
+
+    </script>
+</body>
+</html>
